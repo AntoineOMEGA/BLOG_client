@@ -5,33 +5,8 @@ var app = new Vue ({
         pages: [
             "blog","post"
         ],
+        posts: [],
         current_page: "blog",
-        posts: [
-            {
-                title: "Rare Seashell",
-                author: "Mr. Squid",
-                category: "cards",
-                date: "Today",
-                image: "seashell.jpg",
-                text: "Rare swordfish sea shell. efksejngksjnkjngekjrngkjgkjtnkjrngkjhnkr rktjhjkrtnhrk krjthnkrtjnhr tkr tjhkrjt hkrtnlerkenlrb emrhek,rne,drkrtekmwjlwrkneglr..."
-            },
-            {
-                title: "Rare shell",
-                author: "Mr. Squid",
-                category: "coins",
-                date: "Today",
-                image: "seashell.jpg",
-                text: "Rare swordfish sea shell. efksejngksjnkjngekjrngkjgkjtnkjrngkjhnkr rktjhjkrtnhrk krjthnkrtjnhr tkr tjhkrjt hkrtnlerkenlrb emrhek,rne,drkrtekmwjlwrkneglr..."
-            },
-            {
-                title: "Seashell",
-                author: "Mr. Squid",
-                category: "outdoors",
-                date: "Today",
-                image: "seashell.jpg",
-                text: "Rare swordfish sea shell. efksejngksjnkjngekjrngkjgkjtnkjrngkjhnkr rktjhjkrtnhrk krjthnkrtjnhr tkr tjhkrjt hkrtnlerkenlrb emrhek,rne,drkrtekmwjlwrkneglr..."
-            }
-        ],
         categories: [
             "all",
             "clothing",
@@ -52,22 +27,43 @@ var app = new Vue ({
         post_text: undefined,
 
         drawer: false,
+        url: "http://localhost:3000",
     },
     
+    created: function () {
+        this.getPosts();
+    },
+
     methods: {
+        getPosts: function () {
+            fetch(this.url + "/posts").then(function (res) {
+                res.json().then(function (data) {
+                    app.posts = data.posts;
+                });
+            });
+        },
         submitPost: function () {
             var current_date = new Date;
             var post_date = (current_date.getMonth() + 1) + "/" + current_date.getDate() + "/" + current_date.getFullYear();
-            var new_post = {
+            var req_body = {
                 title: this.post_title,
                 author: this.post_author,
                 category: this.post_category,
                 date: post_date,
                 image: this.post_image,
                 text: this.post_text,
-            }
-            this.posts.push(new_post);
-            this.current_page = "blog";
+            };
+            
+
+            fetch(this.url + "/post", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(req_body)
+            }).then(function (response) {
+                app.getPosts();
+            })
 
             //Reset New Post Variables
             this.post_title = undefined;
@@ -75,7 +71,10 @@ var app = new Vue ({
             this.post_category = "all";
             this.post_image = undefined;
             this.post_text = undefined;
-        }
+
+            this.current_page = "blog";
+            this.selected_category = "all";
+        },
     },
 
     computed: {
