@@ -1,0 +1,10 @@
+[v-cloak]{
+    display: none;
+}
+
+#app{
+    background-color: lightblue;
+    background-image: url('ocean.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
