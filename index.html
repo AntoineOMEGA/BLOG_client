@@ -43,7 +43,7 @@
                         <v-layout column>
                             <v-flex v-for="post in computed_posts" ma-2>
                                 <v-card>
-                                    <v-img :src="post.image" height="200"></v-img>
+                                    <v-img :src="post.image" height="200" v-if="post.image != undefined" onerror = "displayImage(post.image)"></v-img>
                                     <v-card-title>
                                         <div class="headline">{{post.title}}</div>
                                         <v-spacer></v-spacer>

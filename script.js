@@ -27,7 +27,7 @@ var app = new Vue ({
         post_text: undefined,
 
         drawer: false,
-        url: "http://localhost:3000",
+        url: "https://collector-blog-a.herokuapp.com",
     },
     
     created: function () {
@@ -88,5 +88,8 @@ var app = new Vue ({
                 return computed_posts;
             }
         },
+        displayImage: function (image) {
+            image = undefined;
+        }
     },
 })
