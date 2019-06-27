@@ -27,14 +27,46 @@ var app = new Vue ({
         post_text: undefined,
 
         drawer: false,
+        delete_code: "",
         url: "https://collector-blog-a.herokuapp.com",
     },
     
     created: function () {
         this.getPosts();
+        window.addEventListener("keyup", this.keyEvents);
     },
 
     methods: {
+        keyEvents: function (event) {
+            if (event.which == 83) {
+                if (this.delete_code == "") {
+                    this.delete_code = "S";
+                } else {
+                    this.delete_code = "";
+                }
+            } else if (event.which == 78) {
+                if (this.delete_code == "S") {
+                    this.delete_code = "SN";
+                } else {
+                    this.delete_code = "";
+                }
+            }
+            else if (event.which == 65) {
+                if (this.delete_code == "SN") {
+                    this.delete_code = "SNA";
+                } else {
+                    this.delete_code = "";
+                }
+            }
+            else if (event.which == 80) {
+                if (this.delete_code == "SNA") {
+                    this.delete_code = "SNAP";
+                } else {
+                    this.delete_code = "";
+                }
+            }
+            
+        },
         getPosts: function () {
             fetch(this.url + "/posts").then(function (res) {
                 res.json().then(function (data) {
@@ -72,6 +104,20 @@ var app = new Vue ({
             this.current_page = "blog";
             this.selected_category = "all";
         },
+        deletePost: function (post) {
+            fetch(this.url + "/post/" + post._id,{
+                method: "DELETE"
+            }).then(function (response) {
+                if (response.status == 204) {
+                    console.log("Worked");
+                    app.getPosts();
+                } else if (response.status == 400) {
+                    response.json().then(function(data) {
+                        alert(data.msg);
+                    })
+                }
+            })
+        },
     },
 
     computed: {
@@ -87,6 +133,9 @@ var app = new Vue ({
         },
         displayImage: function (image) {
             image = undefined;
-        }
+        },
+        showDelete: function () {
+            return this.delete_code == "SNAP";
+        },
     },
 })

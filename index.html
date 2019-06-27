@@ -43,7 +43,9 @@
                         <v-layout column>
                             <v-flex v-for="post in computed_posts" ma-2>
                                 <v-card>
-                                    <v-img :src="post.image" height="200" v-if="post.image != undefined"></v-img>
+                                    <v-img :src="post.image" height="200" v-if="post.image != undefined">
+                                        <v-btn @click="deletePost(post)" icon class="right" v-if="showDelete"><v-icon color="red">delete</v-icon></v-btn>
+                                    </v-img>
                                     <v-card-title>
                                         <div class="headline">{{post.title}}</div>
                                         <v-spacer></v-spacer>
