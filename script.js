@@ -43,13 +43,10 @@ var app = new Vue ({
             });
         },
         submitPost: function () {
-            var current_date = new Date;
-            var post_date = (current_date.getMonth() + 1) + "/" + current_date.getDate() + "/" + current_date.getFullYear();
             var req_body = {
                 title: this.post_title,
                 author: this.post_author,
                 category: this.post_category,
-                date: post_date,
                 image: this.post_image,
                 text: this.post_text,
             };
