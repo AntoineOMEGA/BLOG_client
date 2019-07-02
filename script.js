@@ -29,8 +29,8 @@ var app = new Vue ({
 
         drawer: false,
         delete_code: "",
-        //url: "https://collector-blog-a.herokuapp.com",
-        url: "http://localhost:3000",
+        url: "https://collector-blog-a.herokuapp.com",
+        //url: "http://localhost:3000",
     },
     
     created: function () {
