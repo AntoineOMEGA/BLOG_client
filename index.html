@@ -44,6 +44,7 @@
                             <v-flex v-for="post in computed_posts" ma-2>
                                 <v-card>
                                     <v-img :src="post.image" height="200" v-if="post.image != undefined">
+                                        <v-btn @click="editPost(post)" icon><v-icon color="white">create</v-icon></v-btn>
                                         <v-btn @click="deletePost(post)" icon class="right" v-if="showDelete"><v-icon color="red">delete</v-icon></v-btn>
                                     </v-img>
                                     <v-card-title>
@@ -84,7 +85,27 @@
                                 <v-select :items="categories" label="Category" v-model="post_category"></v-select>
                                 <v-text-field label="Image" v-model="post_image"></v-text-field>
                                 <v-textarea label="Text" v-model="post_text"></v-textarea>
-                                <v-btn @click="submitPost()">Submit</v-btn>
+                                <v-btn @click="submitPost(post)">Submit</v-btn>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs3></v-flex>
+                </v-layout>
+            </v-container>
+
+            <v-container v-if="current_page == pages[2]">
+                <v-layout>
+                    <v-flex xs3></v-flex>
+                    <v-flex xs6>
+                        <v-card>
+                            <v-card-title class="display-3 justify-center">Update Post</v-card-title>
+                            <v-card-text>
+                                <v-text-field label="Title" v-model="post_editing.title"></v-text-field>
+                                <v-text-field label="Author" v-model="post_editing.author"></v-text-field>
+                                <v-select :items="categories" label="Category" v-model="post_editing.category"></v-select>
+                                <v-text-field label="Image" v-model="post_editing.image"></v-text-field>
+                                <v-textarea label="Text" v-model="post_editing.text"></v-textarea>
+                                <v-btn @click="updatePost(post_editing)">Update</v-btn>
                             </v-card-text>
                         </v-card>
                     </v-flex>

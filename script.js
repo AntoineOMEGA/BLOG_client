@@ -3,7 +3,7 @@ var app = new Vue ({
     
     data: {
         pages: [
-            "blog","post"
+            "blog","post","update"
         ],
         posts: [],
         current_page: "blog",
@@ -19,6 +19,7 @@ var app = new Vue ({
             "misc."
         ],
         selected_category: "all",
+        post_editing: undefined,
 
         post_title: undefined,
         post_author: undefined,
@@ -28,7 +29,8 @@ var app = new Vue ({
 
         drawer: false,
         delete_code: "",
-        url: "https://collector-blog-a.herokuapp.com",
+        //url: "https://collector-blog-a.herokuapp.com",
+        url: "http://localhost:3000",
     },
     
     created: function () {
@@ -114,10 +116,34 @@ var app = new Vue ({
                 } else if (response.status == 400) {
                     response.json().then(function(data) {
                         alert(data.msg);
-                    })
+                    });
                 }
             })
         },
+        editPost: function (post) {
+            this.current_page = this.pages[2];
+            this.post_editing = post;
+        },
+        updatePost: function (post) {
+            fetch(this.url + "/post/" + post._id,{
+                method: "PUT",
+				headers: {
+					"Content-type": "application/json"
+				},
+				body: JSON.stringify(post)
+            }).then(function (response) {
+                console.log(response.status);
+                if (response.status == 400 || response.status == 404) {
+					response.json().then(function (data) {
+						alert(data.msg);
+					});
+				} else if (response.status == 204) {
+                    app.getPosts();
+                    app.current_page = "blog";
+                    app.selected_category = "all";
+				}
+            });
+        }
     },
 
     computed: {
