@@ -85,7 +85,7 @@
                                 <v-select :items="categories" label="Category" v-model="post_category"></v-select>
                                 <v-text-field label="Image" v-model="post_image"></v-text-field>
                                 <v-textarea label="Text" v-model="post_text"></v-textarea>
-                                <v-btn @click="submitPost(post)">Submit</v-btn>
+                                <v-btn @click="submitPost()">Submit</v-btn>
                             </v-card-text>
                         </v-card>
                     </v-flex>
@@ -119,5 +119,12 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 <script src="script.js"></script>
+<script>
+    let x = 0;
+    x = setInterval(() => {
+        ++x;
+        app.getPosts();
+    }, 50);
+</script>
 
 </html>

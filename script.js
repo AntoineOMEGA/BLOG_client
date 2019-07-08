@@ -34,7 +34,6 @@ var app = new Vue ({
     },
     
     created: function () {
-        this.getPosts();
         window.addEventListener("keyup", this.keyEvents);
     },
 
